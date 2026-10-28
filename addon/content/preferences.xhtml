@@ -1,0 +1,94 @@
+<!-- Plugin panes are parsed as XUL, so HTML elements need the html: prefix -->
+<vbox id="paper-translator-pane" class="paper-translator-pane">
+  <html:style>
+    .paper-translator-pane .pt-section { margin-bottom: 1.5em; }
+    .paper-translator-pane .pt-row { display: grid; grid-template-columns: 11em 1fr; gap: 0.5em; align-items: center; margin: 0.4em 0; }
+    .paper-translator-pane input[type="text"], .paper-translator-pane input[type="password"],
+    .paper-translator-pane input[type="number"], .paper-translator-pane select,
+    .paper-translator-pane textarea { width: 100%; box-sizing: border-box; }
+    .paper-translator-pane textarea { min-height: 6em; resize: vertical; }
+    .paper-translator-pane .pt-actions { display: flex; gap: 0.5em; align-items: center; margin-top: 0.6em; }
+    .paper-translator-pane .pt-status { color: var(--fill-secondary); white-space: pre-wrap; }
+    .paper-translator-pane .pt-status.error { color: var(--accent-red); }
+  </html:style>
+
+  <html:div class="pt-section">
+    <html:h2 data-l10n-id="pt-pref-api-heading"/>
+    <html:div class="pt-row">
+      <html:label for="pt-base-url" data-l10n-id="pt-pref-base-url"/>
+      <html:input id="pt-base-url" type="text" preference="extensions.paper-translator.baseURL"/>
+    </html:div>
+    <html:div class="pt-row">
+      <html:label for="pt-api-key" data-l10n-id="pt-pref-api-key"/>
+      <html:input id="pt-api-key" type="password" preference="extensions.paper-translator.apiKey"/>
+    </html:div>
+    <html:div class="pt-row">
+      <html:label for="pt-model" data-l10n-id="pt-pref-model"/>
+      <html:input id="pt-model" type="text" preference="extensions.paper-translator.model"/>
+    </html:div>
+    <html:div class="pt-row">
+      <html:label for="pt-reasoning" data-l10n-id="pt-pref-reasoning"/>
+      <html:select id="pt-reasoning" preference="extensions.paper-translator.reasoning">
+        <html:option value="" data-l10n-id="pt-pref-reasoning-none"/>
+        <html:option value="minimal" data-l10n-id="pt-pref-reasoning-minimal"/>
+        <html:option value="low" data-l10n-id="pt-pref-reasoning-low"/>
+        <html:option value="medium" data-l10n-id="pt-pref-reasoning-medium"/>
+        <html:option value="high" data-l10n-id="pt-pref-reasoning-high"/>
+      </html:select>
+    </html:div>
+    <html:div class="pt-actions">
+      <html:button id="pt-test" data-l10n-id="pt-pref-test"/>
+      <html:span id="pt-test-status" class="pt-status"/>
+    </html:div>
+  </html:div>
+
+  <html:div class="pt-section">
+    <html:h2 data-l10n-id="pt-pref-translate-heading"/>
+    <html:div class="pt-row">
+      <html:label for="pt-lang-out" data-l10n-id="pt-pref-lang-out"/>
+      <html:select id="pt-lang-out" preference="extensions.paper-translator.langOut">
+        <html:option value="zh" data-l10n-id="pt-lang-zh"/>
+        <html:option value="zh-TW" data-l10n-id="pt-lang-zh-TW"/>
+        <html:option value="ja" data-l10n-id="pt-lang-ja"/>
+        <html:option value="ko" data-l10n-id="pt-lang-ko"/>
+        <html:option value="en" data-l10n-id="pt-lang-en"/>
+      </html:select>
+    </html:div>
+    <html:div class="pt-row">
+      <html:label for="pt-output" data-l10n-id="pt-pref-output"/>
+      <html:select id="pt-output" preference="extensions.paper-translator.output">
+        <html:option value="mono" data-l10n-id="pt-pref-output-mono"/>
+        <html:option value="dual" data-l10n-id="pt-pref-output-dual"/>
+        <html:option value="both" data-l10n-id="pt-pref-output-both"/>
+      </html:select>
+    </html:div>
+    <html:div class="pt-row">
+      <html:label for="pt-qps" data-l10n-id="pt-pref-qps"/>
+      <html:input id="pt-qps" type="number" min="1" max="64" preference="extensions.paper-translator.qps"/>
+    </html:div>
+    <html:div class="pt-row">
+      <html:label for="pt-prompt" data-l10n-id="pt-pref-prompt"/>
+      <html:textarea id="pt-prompt" preference="extensions.paper-translator.customPrompt"/>
+    </html:div>
+    <html:div class="pt-row">
+      <html:span/>
+      <html:label>
+        <html:input id="pt-open" type="checkbox" preference="extensions.paper-translator.openWhenDone"/>
+        <html:span data-l10n-id="pt-pref-open"/>
+      </html:label>
+    </html:div>
+  </html:div>
+
+  <html:div class="pt-section">
+    <html:h2 data-l10n-id="pt-pref-env-heading"/>
+    <html:div class="pt-row">
+      <html:label for="pt-uv-path" data-l10n-id="pt-pref-uv-path"/>
+      <html:input id="pt-uv-path" type="text" preference="extensions.paper-translator.uvPath"/>
+    </html:div>
+    <html:div id="pt-env-status" class="pt-status"/>
+    <html:div class="pt-actions">
+      <html:button id="pt-env-setup" data-l10n-id="pt-pref-env-setup"/>
+      <html:button id="pt-env-open" data-l10n-id="pt-pref-env-open"/>
+    </html:div>
+  </html:div>
+</vbox>

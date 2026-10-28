@@ -1,0 +1,3 @@
+babeldoc==0.6.4
+# bitstring 5.0 removed BitStream, which babeldoc 0.6.4 imports
+bitstring<5
