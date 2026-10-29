@@ -14,12 +14,8 @@ concurrency:
 
 jobs:
   build:
-    name: Build (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
+    name: Xpi build
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with:
@@ -31,7 +27,7 @@ jobs:
         run: ./scripts/build.sh
       - uses: actions/upload-artifact@v7
         with:
-          name: paper-translator-${{ matrix.os }}
+          name: paper-translator-ubuntu
           path: build/*.xpi
           if-no-files-found: error
 

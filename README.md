@@ -56,7 +56,7 @@
   scripts/generate_update.py 从发布的 XPI 生成自动更新清单
   ```
 
-- CI 会在 Linux 和 macOS 上打包 XPI。发布时修改 `addon/manifest.json` 的版本号、提交并推送，再推送对应的 `vX.Y.Z` 标签（例如 `v0.3.0`）；构建成功后自动创建 GitHub Release，上传 XPI 和 `update.json`。插件的 `update_url` 指向 `releases/latest/download/update.json`，清单版本与 SHA-256 从实际 XPI 读取，无需维护仓库中的更新清单或由 CI 提交代码。发布使用 GitHub 自动提供的 `GITHUB_TOKEN`，无需额外配置 Secret；Zotero 版本范围只在 manifest 中维护。在 fork 中独立发布时，需把 manifest 中的 `update_url` 改为自己的仓库地址。
+- CI 仅在 Ubuntu 上打包 XPI。发布时修改 `addon/manifest.json` 的版本号、提交并推送，再推送对应的 `vX.Y.Z` 标签（例如 `v0.3.0`）；构建成功后自动创建 GitHub Release，上传 XPI 和 `update.json`。插件的 `update_url` 指向 `releases/latest/download/update.json`，清单版本与 SHA-256 从实际 XPI 读取，无需维护仓库中的更新清单或由 CI 提交代码。发布使用 GitHub 自动提供的 `GITHUB_TOKEN`，无需额外配置 Secret；Zotero 版本范围只在 manifest 中维护。在 fork 中独立发布时，需把 manifest 中的 `update_url` 改为自己的仓库地址。
 - 使用旧更新地址的已安装版本需手动安装一次新版，之后会从 Release 检查更新。
 - 更新依赖：改 `python/requirements.in`，然后
 
