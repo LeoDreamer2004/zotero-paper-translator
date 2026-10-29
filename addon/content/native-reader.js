@@ -215,7 +215,7 @@ var PaperTranslatorNativeReader = class {
         parts.push(`${translation.progress.completed}/${translation.progress.total}`);
         details.push(this.plugin.t("pt-text-translation-count", translation.progress));
       }
-      if (Number.isFinite(percent)) { parts.push(`${Math.round(percent)}%`); details.push(`${Math.round(percent)}%`); }
+      if (Number.isFinite(percent)) details.push(`${Math.round(percent)}%`);
       text = this.progressError || parts.join(" · ");
       title = this.progressError || details.join(" · ");
     }
