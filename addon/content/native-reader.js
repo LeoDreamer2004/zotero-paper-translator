@@ -140,6 +140,7 @@ var PaperTranslatorNativeReader = class {
     this.progressError = null;
     this.unsubscribe?.(); this.translation = translation;
     translation.readers.add(this.reader);
+    translation.setReaderTitle(this.reader);
     this.unsubscribe = translation.subscribe((message) => {
       if (message.type === "error" || message.type === "preview_error") this.error(message.message);
       else this.refresh();

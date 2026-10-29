@@ -1,6 +1,7 @@
 paper-translator-menu-text-translation =
     .label = Text Translation…
 pt-text-translation-open = Text translation
+pt-text-translation-tab-title = Text translation - { $title }
 pt-text-translation-launch = Open text translation
 pt-text-translation-progress = Text translation progress
 pt-text-translation-preparing = Preparing document…

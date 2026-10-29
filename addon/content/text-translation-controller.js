@@ -8,6 +8,7 @@ var PaperTranslatorTextTranslation = class {
     this.lang = lang || plugin.getSettings().langOut;
     this.listeners = new Set();
     this.readers = new Set();
+    this.readerTitleHandlers = new Map();
     this.session = null;
     this.geometry = [];
     this.view = {};
@@ -262,6 +263,23 @@ var PaperTranslatorTextTranslation = class {
     this.send("document_updated");
   }
 
+  setReaderTitle(reader) {
+    if (this.readerTitleHandlers.has(reader)) return;
+    this.readerTitleHandlers.set(reader, reader.updateTitle);
+    // Native reader titles follow the user's author/year preference by default.
+    // Override only this translation reader so later item updates keep its title.
+    reader.updateTitle = async () => {
+      let parent = this.attachment.parentItemID ? Zotero.Items.get(this.attachment.parentItemID) : null;
+      let title = parent?.getField("title") || this.attachment.getField("title")
+        || this.attachment.attachmentFilename;
+      reader._title = this.plugin.t("pt-text-translation-tab-title", { title });
+      if (reader._isTabClosed) return;
+      reader._setTitleValue(reader._title);
+      reader._internalReader?.setTitle(reader._title);
+    };
+    reader.updateTitle().catch(error => Zotero.logError(error));
+  }
+
   async showNativeTab() {
     if (this.closed || !this.readerItem) return;
     let reader = await Zotero.Reader.open(this.readerItem.id);
@@ -274,6 +292,7 @@ var PaperTranslatorTextTranslation = class {
     }
     if (!reader) throw new Error(this.plugin.t("pt-error-reader-open"));
     this.readers.add(reader);
+    this.setReaderTitle(reader);
     this.reader = reader;
     for (let binding of this.plugin.readerBindings) {
       if (binding.reader.itemID === this.readerItem.id) binding.bind(this);
@@ -393,6 +412,13 @@ var PaperTranslatorTextTranslation = class {
     this.closed = true;
     this.pending.clear();
     this.proc?.kill();
+    for (let [reader, updateTitle] of this.readerTitleHandlers) {
+      reader.updateTitle = updateTitle;
+      if (!reader._isTabClosed && !reader._isUninitialized) {
+        Promise.resolve(reader.updateTitle()).catch(error => Zotero.logError(error));
+      }
+    }
+    this.readerTitleHandlers.clear();
     this.listeners.clear();
     this.onClose();
   }

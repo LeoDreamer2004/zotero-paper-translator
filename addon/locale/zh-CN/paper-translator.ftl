@@ -1,6 +1,7 @@
 paper-translator-menu-text-translation =
     .label = 文本翻译 PDF…
 pt-text-translation-open = 文本翻译
+pt-text-translation-tab-title = 文本翻译 - { $title }
 pt-text-translation-launch = 打开文本翻译
 pt-text-translation-progress = 文本翻译进度
 pt-text-translation-preparing = 准备文档…
