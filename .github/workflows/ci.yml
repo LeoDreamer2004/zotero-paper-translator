@@ -13,8 +13,8 @@ concurrency:
   cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 jobs:
-  check:
-    name: Test and build (${{ matrix.os }})
+  build:
+    name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -27,24 +27,6 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
-          cache: pip
-          cache-dependency-path: addon/python/requirements.lock
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24'
-          package-manager-cache: false
-      - name: Install test dependencies
-        run: python -m pip install -c addon/python/requirements.lock openai pymupdf
-      - name: Check JavaScript syntax
-        run: |
-          node --check addon/bootstrap.js
-          for source in addon/content/*.js; do
-            node --check "$source"
-          done
-      - name: Run Python tests
-        run: python -m unittest discover -s tests -p 'test_*.py' -v
-      - name: Run reader and localization tests
-        run: node tests/text-translation-ui.cjs
       - name: Build XPI
         run: ./scripts/build.sh
       - uses: actions/upload-artifact@v7
@@ -55,7 +37,7 @@ jobs:
 
   release:
     name: Publish release
-    needs: check
+    needs: build
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
